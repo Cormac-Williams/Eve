@@ -13,9 +13,7 @@ abstract class TotalFunctionConstraint extends Constraint {
   // proposed variable.
   resolveProposal(proposal, prefix) {
     let {args} = this.resolve(prefix);
-    let result = this.getReturnValue(args);
-    if (isNaN(result) || !(isFinite(result))) {return [];}
-    return [result];
+    return [this.getReturnValue(args)];
   }
 
   // Check if our return is equivalent to the result of the total function.
@@ -26,13 +24,10 @@ abstract class TotalFunctionConstraint extends Constraint {
 
   // Total functions always have a cardinality of 1
   getProposal(tripleIndex, proposed, prefix) {
-    if(this.returns.length) {
-      let proposal = this.proposalObject;
-      proposal.providing = proposed;
-      proposal.cardinality = 1;
-      return proposal;
-    }
-    return;
+    let proposal = this.proposalObject;
+    proposal.providing = proposed;
+    proposal.cardinality = 1;
+    return proposal;
   }
 }
 
@@ -68,11 +63,6 @@ function degreesToRadians(degrees:number){
 }
 
 class Add extends TotalFunctionConstraint {
-  resolveProposal(proposal, prefix) {
-    let {args} = this.resolve(prefix);
-    return [this.getReturnValue(args)];
-  }
-
   getReturnValue(args) {
     return args[0] + args[1];
   }
