@@ -14,7 +14,7 @@ abstract class TotalFunctionConstraint extends Constraint {
   resolveProposal(proposal, prefix) {
     let {args} = this.resolve(prefix);
     let result = this.getReturnValue(args);
-    if (isNaN(result) || !(isFinite(result))) {return [];}
+    if (isNaN(result)) {return [];}
     return [result];
   }
 
@@ -26,13 +26,10 @@ abstract class TotalFunctionConstraint extends Constraint {
 
   // Total functions always have a cardinality of 1
   getProposal(tripleIndex, proposed, prefix) {
-    if(this.returns.length) {
-      let proposal = this.proposalObject;
-      proposal.providing = proposed;
-      proposal.cardinality = 1;
-      return proposal;
-    }
-    return;
+    let proposal = this.proposalObject;
+    proposal.providing = proposed;
+    proposal.cardinality = 1;
+    return proposal;
   }
 }
 
